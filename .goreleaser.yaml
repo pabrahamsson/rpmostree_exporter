@@ -1,0 +1,19 @@
+archives:
+  - format: binary
+builds:
+  - id: rpmostree_exporter
+    ldflags:
+      - -s -w -X main.build={{.Version}}
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    no_unique_dist_dir: false
+release:
+  github:
+    owner: pabrahamsson
+    name: rpmostree_exporter
+  mode: keep-existing
