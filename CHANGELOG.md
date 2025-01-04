@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.1.7...v0.2.0) (2025-01-04)
+
+
+### Features
+
+* Add cli flags for common config options ([9ad4152](https://github.com/pabrahamsson/rpmostree_exporter/commit/9ad4152666f3c7414e989ff161d11eeef2418344))
+
 ## [0.1.7](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.1.6...v0.1.7) (2025-01-04)
 
 
