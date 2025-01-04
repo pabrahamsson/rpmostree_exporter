@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.7](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.1.6...v0.1.7) (2025-01-04)
+
+
+### Bug Fixes
+
+* **workflow:** Add checksum file to release artifacts ([2ac8e81](https://github.com/pabrahamsson/rpmostree_exporter/commit/2ac8e81e736978f8e7646c6caf14d7bd56b71b5c))
+
 ## [0.1.6](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.1.5...v0.1.6) (2025-01-04)
 
 
