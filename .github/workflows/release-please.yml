@@ -5,6 +5,9 @@ on:
     paths-ignore:
       - Makefile
 
+permissions:
+  contents: write
+
 name: release-please
 jobs:
   build:
@@ -17,22 +20,20 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: stable
+      - name: Build artifacts
+        run: make
       - name: Create release
         id: release
         uses: googleapis/release-please-action@v4
         with:
           release-type: go
-      - name: Wait for tag to be created
-        run: sleep 5s
-        shell: bash
-      - name: Checkout
-        uses: actions/checkout@v4
-        id: checkout2
-      - name: Run Goreleaser
+      - name: Upload amd64 release artifact
         if: ${{ steps.release.outputs.release_created }}
-        uses: goreleaser/goreleaser-action@v6
-        with:
-          version: "~> 2"
-          args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload ${{ steps.release.outputs.tag_name }} ./bin/rpmostree-exporter_linux_amd64
+      - name: Upload arm64 release artifact
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload ${{ steps.release.outputs.tag_name }} ./bin/rpmostree-exporter_linux_arm64
