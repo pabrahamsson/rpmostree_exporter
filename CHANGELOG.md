@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.1.3...v0.1.4) (2025-01-04)
+
+
+### Bug Fixes
+
+* **workflow:** Do another checkout to get tags ([56299a0](https://github.com/pabrahamsson/rpmostree_exporter/commit/56299a0996da6d1d4828145fe85bdbc13e38b3ae))
+
 ## [0.1.3](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.1.2...v0.1.3) (2025-01-04)
 
 
