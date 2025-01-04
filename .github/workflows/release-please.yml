@@ -5,9 +5,6 @@ on:
     paths-ignore:
       - Makefile
 
-permissions:
-  contents: write
-
 name: release-please
 jobs:
   build:
