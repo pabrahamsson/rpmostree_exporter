@@ -21,6 +21,9 @@ jobs:
         uses: googleapis/release-please-action@v4
         with:
           release-type: go
+      - name: Wait for tag to be created
+        run: sleep 10s
+        shell: bash
       - name: Run Goreleaser
         if: ${{ steps.release.outputs.release_created }}
         uses: goreleaser/goreleaser-action@v6
