@@ -6,7 +6,7 @@ require (
 	github.com/coreos/rpmostree-client-go v0.0.0-20240514234259-72a33e8554b6
 	github.com/go-kit/log v0.2.1
 	github.com/prometheus/client_golang v1.20.5
-	github.com/prometheus/common v0.55.0
+	github.com/prometheus/common v0.61.0
 )
 
 require (
@@ -23,7 +23,7 @@ require (
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
-	golang.org/x/sys v0.22.0 // indirect
-	google.golang.org/protobuf v1.34.2 // indirect
+	golang.org/x/sys v0.28.0 // indirect
+	google.golang.org/protobuf v1.35.2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
