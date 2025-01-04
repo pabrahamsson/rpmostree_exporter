@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.5](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.1.4...v0.1.5) (2025-01-04)
+
+
+### Bug Fixes
+
+* **workflow:** use secrets.GITHUB_TOKEN for goreleaser ([78c53c6](https://github.com/pabrahamsson/rpmostree_exporter/commit/78c53c6c555d9230f5310bd10e7c8424df0112db))
+
 ## [0.1.4](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.1.3...v0.1.4) (2025-01-04)
 
 
