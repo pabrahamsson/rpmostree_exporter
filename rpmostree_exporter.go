@@ -3,18 +3,22 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"os"
 	"os/exec"
 	"strings"
 	"sync"
 
+	"github.com/alecthomas/kingpin/v2"
 	"github.com/coreos/rpmostree-client-go/pkg/client"
-	"github.com/go-kit/log"
-	"github.com/go-kit/log/level"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/prometheus/common/promlog"
+	"github.com/prometheus/common/promslog"
+	"github.com/prometheus/common/promslog/flag"
+	"github.com/prometheus/common/version"
+	"github.com/prometheus/exporter-toolkit/web"
+	webflag "github.com/prometheus/exporter-toolkit/web/kingpinflag"
 )
 
 const (
@@ -22,7 +26,7 @@ const (
 )
 
 var (
-	clientId      = "rpmostree-exporter"
+	clientId      = "rpmostree_exporter"
 	rpmostreeInfo = prometheus.NewDesc(prometheus.BuildFQName(namespace, "version", "info"), "rpm-ostree info.", []string{"release_date", "version"}, nil)
 	rpmostreeUp   = prometheus.NewDesc(prometheus.BuildFQName(namespace, "", "up"), "Was the last scrape of rpm-ostree successful.", nil, nil)
 )
@@ -33,10 +37,10 @@ type Exporter struct {
 	up               prometheus.Gauge
 	totalScrapes     prometheus.Counter
 	updatesAvailable prometheus.Gauge
-	logger           log.Logger
+	logger           slog.Logger
 }
 
-func NewExporter(logger log.Logger) (*Exporter, error) {
+func NewExporter(logger slog.Logger) (*Exporter, error) {
 	return &Exporter{
 		client: client.NewClient(clientId),
 		totalScrapes: prometheus.NewCounter(prometheus.CounterOpts{
@@ -82,12 +86,12 @@ func (e *Exporter) scrape(ch chan<- prometheus.Metric) (up float64) {
 	e.totalScrapes.Inc()
 	var err error
 	var packages, booted_version, staged_version string
-	value := float64(0)
 
 	if err = fetchUpdates(e.client, &packages, &booted_version, &staged_version); err != nil {
-		return value
+		return 0
 	}
 
+	value := float64(0)
 	if staged_version != "" {
 		value = 1
 	}
@@ -95,7 +99,7 @@ func (e *Exporter) scrape(ch chan<- prometheus.Metric) (up float64) {
 		prometheus.BuildFQName(namespace, "", "updates_available"), "Is there a staged rpm-ostree deployment available.", []string{"booted", "staged", "packages"}, nil)
 	ch <- prometheus.MustNewConstMetric(desc, prometheus.GaugeValue, value, []string{booted_version, staged_version, packages}...)
 
-	return value
+	return 1
 }
 
 type Diff struct {
@@ -152,16 +156,35 @@ func fetchUpdates(client client.Client, packages, booted_version, staged_version
 }
 
 func main() {
-	promlogConfig := &promlog.Config{}
-	logger := promlog.New(promlogConfig)
-	level.Info(logger).Log("msg", "Schtarrrrting!!")
-	exporter, err := NewExporter(logger)
+	webConfig := webflag.AddFlags(kingpin.CommandLine, ":8888")
+	promslogConfig := &promslog.Config{}
+	flag.AddFlags(kingpin.CommandLine, promslogConfig)
+	kingpin.Version(version.Print("rpmostree_exporter"))
+	kingpin.HelpFlag.Short('h')
+	kingpin.Parse()
+	logger := promslog.New(promslogConfig)
+
+	logger.Info("Schtarrrrting!!")
+	exporter, err := NewExporter(*logger)
 	if err != nil {
-		level.Error(logger).Log("msg", "Error creating an exporter", "err", err)
+		logger.Error("Error creating an exporter", slog.Any("error", err))
 		os.Exit(1)
 	}
 	prometheus.MustRegister(exporter)
 
 	http.Handle("/metrics", promhttp.Handler())
-	http.ListenAndServe(":8888", nil)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`<html>
+    <head><title>RPM OStree Exporter</title></head>
+    <body>
+    <h1>RPM OStree Exporter</h1>
+    <p><a href='/metrics'>Metrics</a></p>
+    </body>
+    </html>`))
+	})
+	srv := &http.Server{}
+	if err := web.ListenAndServe(srv, webConfig, logger); err != nil {
+		logger.Error("Error starting HTTP server", slog.Any("err", err))
+		os.Exit(1)
+	}
 }
