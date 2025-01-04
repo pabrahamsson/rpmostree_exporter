@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.6](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.1.5...v0.1.6) (2025-01-04)
+
+
+### Bug Fixes
+
+* **workflow:** Loosen workflow permissions ([899ed64](https://github.com/pabrahamsson/rpmostree_exporter/commit/899ed64aecc5713031554474817f11313b10b4bb))
+* **workflow:** Use release-please action to upload release artifacts ([3481cc3](https://github.com/pabrahamsson/rpmostree_exporter/commit/3481cc31ba1b97c4c8a465ecf70068fa6fbcaa54))
+
 ## [0.1.5](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.1.4...v0.1.5) (2025-01-04)
 
 
