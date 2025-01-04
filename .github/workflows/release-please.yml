@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        id: checkout1
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
@@ -24,6 +25,9 @@ jobs:
       - name: Wait for tag to be created
         run: sleep 10s
         shell: bash
+      - name: Checkout
+        uses: actions/checkout@v4
+        id: checkout2
       - name: Run Goreleaser
         if: ${{ steps.release.outputs.release_created }}
         uses: goreleaser/goreleaser-action@v6
