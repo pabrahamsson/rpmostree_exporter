@@ -1,0 +1,6 @@
+# HELP rpmostree_exporter_scrapes_total Current total rpm-ostree scrapes.
+# TYPE rpmostree_exporter_scrapes_total counter
+rpmostree_exporter_scrapes_total 1
+# HELP rpmostree_up Was the last scrape of rpm-ostree successful.
+# TYPE rpmostree_up gauge
+rpmostree_up 0
