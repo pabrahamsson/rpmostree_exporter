@@ -19,6 +19,8 @@ jobs:
           go-version: stable
       - name: Build artifacts
         run: make && make checksums
+      - name: Run tests
+        run: make gotest
       - name: Create release
         id: release
         uses: googleapis/release-please-action@v4
