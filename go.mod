@@ -2,7 +2,7 @@ module github.com/pabrahamsson/rpmostree-exporter
 
 go 1.22
 
-toolchain go1.23.4
+toolchain go1.23.5
 
 require (
 	github.com/alecthomas/kingpin/v2 v2.4.0
