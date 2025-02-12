@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.2.1...v0.3.0) (2025-02-12)
+
+
+### Features
+
+* Only prepend newline when updates are available ([9b9423e](https://github.com/pabrahamsson/rpmostree_exporter/commit/9b9423e8daa30ceeef7ec94e2e9da3db94b177a7))
+
 ## [0.2.1](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.2.0...v0.2.1) (2025-01-16)
 
 
