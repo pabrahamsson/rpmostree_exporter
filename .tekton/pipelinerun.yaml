@@ -44,6 +44,7 @@ spec:
               image: registry.access.redhat.com/ubi9/go-toolset:1.22
               workingDir: $(workspaces.source.path)
               script: |
+                git config --global --add safe.directory .
                 make && make gotest && make clean
 
   workspaces:
