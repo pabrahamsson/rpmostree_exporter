@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.3.2](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.3.1...v0.3.2) (2025-03-14)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/prometheus/client_golang to v1.21.1 ([d5f08fc](https://github.com/pabrahamsson/rpmostree_exporter/commit/d5f08fc50f2b8c2dbf78aa937a8cad467c671c0e))
+* **deps:** update module github.com/prometheus/client_golang to v1.21.1 ([73dc213](https://github.com/pabrahamsson/rpmostree_exporter/commit/73dc213e0167f2e22fcaced39cc8d787a5a1064c))
+* **deps:** update module github.com/prometheus/common to v0.63.0 ([a3550f5](https://github.com/pabrahamsson/rpmostree_exporter/commit/a3550f57c03483827c7144bc19727a0ffa1e4cbd))
+* **deps:** update module github.com/prometheus/common to v0.63.0 ([d7584d3](https://github.com/pabrahamsson/rpmostree_exporter/commit/d7584d31f0c6466647451f3f3f6a31b559c5acf0))
+
 ## [0.3.1](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.3.0...v0.3.1) (2025-02-20)
 
 
