@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.3.2...v0.4.0) (2025-03-16)
+
+
+### Features
+
+* **ci:** Add initial PR CI pipeline ([7583053](https://github.com/pabrahamsson/rpmostree_exporter/commit/75830531a25149b8473207ccc6d9d23ef4e86362))
+
 ## [0.3.2](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.3.1...v0.3.2) (2025-03-14)
 
 
