@@ -142,9 +142,6 @@ func fetchUpdates(client client.Client, packages, booted_version, staged_version
 		}
 
 		pkgs := []string{}
-		if len(diff.PkgDiff) > 0 {
-			pkgs = append([]string{"\n"}, pkgs...)
-		}
 		for _, pkg := range diff.PkgDiff {
 			var p Package
 			if err = json.Unmarshal(pkg[2], &p); err != nil {
