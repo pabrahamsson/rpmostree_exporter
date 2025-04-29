@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.4.1...v0.4.2) (2025-04-29)
+
+
+### Bug Fixes
+
+* Remove leading newline for updated package list ([0e0fa99](https://github.com/pabrahamsson/rpmostree_exporter/commit/0e0fa99d7a55a3aa15e13e0ff3db25d90c800d11))
+
 ## [0.4.1](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.4.0...v0.4.1) (2025-04-11)
 
 
