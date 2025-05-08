@@ -41,7 +41,7 @@ spec:
             - name: source
           steps:
             - name: build
-              image: registry.access.redhat.com/ubi9/go-toolset:9.5-1745328278
+              image: registry.access.redhat.com/ubi9/go-toolset:9.5-1746547777
               workingDir: $(workspaces.source.path)
               script: |
                 git config --global --add safe.directory $(pwd) 
