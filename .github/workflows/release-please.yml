@@ -21,23 +21,23 @@ jobs:
         run: make && make checksums
       - name: Run tests
         run: make gotest
-      - name: Create release
-        id: release
-        uses: googleapis/release-please-action@v4
-        with:
-          release-type: go
-      - name: Upload amd64 release artifact
-        if: ${{ steps.release.outputs.release_created }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload ${{ steps.release.outputs.tag_name }} ./bin/rpmostree_exporter_linux_amd64
-      - name: Upload arm64 release artifact
-        if: ${{ steps.release.outputs.release_created }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload ${{ steps.release.outputs.tag_name }} ./bin/rpmostree_exporter_linux_arm64
-      - name: Upload checksum release artifact
-        if: ${{ steps.release.outputs.release_created }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload ${{ steps.release.outputs.tag_name }} ./bin/rpmostree_exporter_checksums.txt
+#      - name: Create release
+#        id: release
+#        uses: googleapis/release-please-action@v4
+#        with:
+#          release-type: go
+#      - name: Upload amd64 release artifact
+#        if: ${{ steps.release.outputs.release_created }}
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: gh release upload ${{ steps.release.outputs.tag_name }} ./bin/rpmostree_exporter_linux_amd64
+#      - name: Upload arm64 release artifact
+#        if: ${{ steps.release.outputs.release_created }}
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: gh release upload ${{ steps.release.outputs.tag_name }} ./bin/rpmostree_exporter_linux_arm64
+#      - name: Upload checksum release artifact
+#        if: ${{ steps.release.outputs.release_created }}
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: gh release upload ${{ steps.release.outputs.tag_name }} ./bin/rpmostree_exporter_checksums.txt
