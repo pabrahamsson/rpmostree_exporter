@@ -37,8 +37,13 @@ spec:
           - name: source
             workspace: source
         taskSpec:
-          workspaces:
-            - name: source
+          results:
+            - name: release-created
+              description: True if a new release was created, false otherwise
+            - name: release-tag
+              description: The tag name of the release if one was created
+            - name: release-id
+              description: The ID of the release if one was created
           steps:
             - name: create-release
               image: quay.io/pabrahamsson/release-please:17.0.0-3
@@ -55,17 +60,73 @@ spec:
                       key: token
             - name: create-release-pr
               image: quay.io/pabrahamsson/release-please:17.0.0-3
-              workingDir: $(workspaces.source.path)
-              args:
-                - release-pr
-                - --repo-url=pabrahamsson/rpmostree_exporter
-                - --token=$(GH_TOKEN)
               env:
                 - name: GH_TOKEN
                   valueFrom:
                     secretKeyRef:
                       name: github-token
                       key: token
+              workingDir: $(workspaces.source.path)
+              script: |
+                #!/usr/bin/env bash
+                RELEASE_RESULT=$(release-please release-pr --repo-url=pabrahamsson/rpmostree_exporter --token=$(GH_TOKEN) | tail -1)
+
+                # Check if a new release was created
+                if [[ "$RELEASE_RESULT" == *"created release"* ]]; then
+                  echo -n "true" > $(results.release-created.path)
+                  echo "New GitHub release was created."
+                else
+                  echo -n "false" > $(results.release-please.path)
+                  echo "No new GitHub release was needed."
+                fi
+
+                LATEST_RELEASE=$(curl -s -H "Authorization: token $(GH_TOKEN)" \
+                  "https://api.github.com/repos/pabrahamsson/rpmostree_exporter/releases/latest")
+
+                TAG_NAME=$(echo $LATEST_RELEASE | jq -r '.tag_name')
+                RELEASE_NAME=$(echo $LATEST_RELEASE | jq -r '.name')
+                RELEASE_ID=$(echo $LATEST_RELEASE | jq -r '.id')
+
+                echo -n "$TAG_NAME" > $(results.release-tag.path)
+                echo -n "$RELEASE_ID" > $(results.release-id.path)
+          workspaces:
+            - name: source
+      - name: upload-release-artifacts
+        runAfter:
+          - release-please
+        workspaces:
+          - name: source
+            workspace: source
+        taskSpec:
+          params:
+            - name: release-created
+              value: $(tasks.release-please.results.release-created)
+            - name: release-tag
+              value: $(tasks.release-please.results.release-tag)
+          steps:
+            - name: upload-release-artifacts-if-release-created
+              image: quay.io/pabrahamsson/gh-cli:2.67.0
+              env:
+                - name: GITHUB_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: github-token
+                      key: token
+              workingDir: $(workspaces.source.path)
+              script: |
+                #/usr/bin/env bash
+                set -e
+
+                if [ "$(params.release-created)" != "true" ]; then
+                  echo" No new release created, skipping artifact upload."
+                  exit 0
+                fi
+
+                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_amd64
+                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_arm64
+                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_checksums.txt
+          workspaces:
+            - name: source
   workspaces:
     - name: source
       volumeClaimTemplate:
