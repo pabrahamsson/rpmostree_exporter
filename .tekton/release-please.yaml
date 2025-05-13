@@ -40,7 +40,7 @@ spec:
           workspaces:
             - name: source
           steps:
-            - name: create release
+            - name: create-release
               image: quay.io/pabrahamsson/release-please:17.0.0-3
               workingDir: $(workspace.source.path)
               args:
@@ -53,7 +53,7 @@ spec:
                     secretKeyRef:
                       name: github-token
                       key: token
-            - name: create release pr
+            - name: create-release-pr
               image: quay.io/pabrahamsson/release-please:17.0.0-3
               workingDir: $(workspace.source.path)
               args:
