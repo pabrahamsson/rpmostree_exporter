@@ -5,7 +5,8 @@
   ],
   "kubernetes": {
     "fileMatch": [
-      "^\\.tekton/pipelinerun\\.yaml$"
+      "^\\.tekton/pipelinerun\\.yaml$",
+      "^\\.tekton/release-please\\.yaml$"
     ]
   }
 }
