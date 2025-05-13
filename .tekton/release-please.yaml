@@ -74,9 +74,11 @@ spec:
                 # Check if a new release was created
                 if [[ "$RELEASE_RESULT" == *"created release"* ]]; then
                   echo -n "true" | tee "$(results.release-created.path)"
+                  echo
                   echo "New GitHub release was created."
                 else
                   echo -n "false" | tee "$(results.release-created.path)"
+                  echo
                   echo "No new GitHub release was needed."
                 fi
 
@@ -119,14 +121,17 @@ spec:
                 #/usr/bin/env bash
                 set -e
 
-                if [ "$(params.release-created)" != "true" ]; then
+                echo "release-created: $(params.release-created)"
+                echo "release-tag: $(params.release-tag)"
+
+                if [[ "$(params.release-created)" != "true" ]]; then
                   echo" No new release created, skipping artifact upload."
                   exit 0
+                else
+                  gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_amd64
+                  gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_arm64
+                  gh release upload $(params.release-tag) ./bin/rpmostree_exporter_checksums.txt
                 fi
-
-                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_amd64
-                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_arm64
-                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_checksums.txt
           workspaces:
             - name: source
   workspaces:
