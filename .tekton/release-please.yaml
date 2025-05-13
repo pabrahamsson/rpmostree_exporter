@@ -72,7 +72,8 @@ spec:
                 RELEASE_RESULT=$(release-please release-pr --repo-url=pabrahamsson/rpmostree_exporter --token=$GH_TOKEN)
 
                 # Check if a new release was created
-                if [[ "$RELEASE_RESULT" == *"created release"* ]]; then
+                RELEASE_REGEX='^.*Creating [0-9]+ releases.*$'
+                if [[ $RELEASE_RESULT =~ $RELEASE_REGEX ]]; then
                   echo -n "true" | tee "$(results.release-created.path)"
                   echo
                   echo "New GitHub release was created."
@@ -127,11 +128,11 @@ spec:
                 if [[ "$(params.release-created)" != "true" ]]; then
                   echo "No new release created, skipping artifact upload."
                   exit 0
-                else
-                  gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_amd64
-                  gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_arm64
-                  gh release upload $(params.release-tag) ./bin/rpmostree_exporter_checksums.txt
                 fi
+
+                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_amd64
+                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_arm64
+                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_checksums.txt
           workspaces:
             - name: source
   workspaces:
