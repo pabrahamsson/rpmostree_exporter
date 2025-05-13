@@ -42,7 +42,7 @@ spec:
           steps:
             - name: create-release
               image: quay.io/pabrahamsson/release-please:17.0.0-3
-              workingDir: $(workspace.source.path)
+              workingDir: $(workspaces.source.path)
               args:
                 - github-release
                 - --repo-url=pabrahamsson/rpmostree_exporter
@@ -55,7 +55,7 @@ spec:
                       key: token
             - name: create-release-pr
               image: quay.io/pabrahamsson/release-please:17.0.0-3
-              workingDir: $(workspace.source.path)
+              workingDir: $(workspaces.source.path)
               args:
                 - release-pr
                 - --repo-url=pabrahamsson/rpmostree_exporter
