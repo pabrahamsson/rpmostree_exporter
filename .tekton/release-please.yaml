@@ -73,10 +73,10 @@ spec:
 
                 # Check if a new release was created
                 if [[ "$RELEASE_RESULT" == *"created release"* ]]; then
-                  echo -n "true" > $(results.release-created.path)
+                  echo -n "true" | tee "$(results.release-created.path)"
                   echo "New GitHub release was created."
                 else
-                  echo -n "false" > $(results.release-please.path)
+                  echo -n "false" | tee "$(results.release-created.path)"
                   echo "No new GitHub release was needed."
                 fi
 
@@ -87,8 +87,8 @@ spec:
                 RELEASE_NAME=$(echo $LATEST_RELEASE | jq -r '.name')
                 RELEASE_ID=$(echo $LATEST_RELEASE | jq -r '.id')
 
-                echo -n "$TAG_NAME" > $(results.release-tag.path)
-                echo -n "$RELEASE_ID" > $(results.release-id.path)
+                echo -n "$TAG_NAME" | tee "$(results.release-tag.path)"
+                echo -n "$RELEASE_ID" | tee "$(results.release-id.path)"
           workspaces:
             - name: source
       - name: upload-release-artifacts
