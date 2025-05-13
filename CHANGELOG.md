@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.5.0](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.4.2...v0.5.0) (2025-05-13)
+
+
+### Features
+
+* **pac:** Add GH release artifact uploads ([77a6619](https://github.com/pabrahamsson/rpmostree_exporter/commit/77a66192fb073a67a788ed92ce21ccc208aa86ce))
+
+
+### Bug Fixes
+
+* **pac:** Add default params values ([a6be70c](https://github.com/pabrahamsson/rpmostree_exporter/commit/a6be70c85272056f9145686fe18e78c33f923de2))
+* **pac:** Bash typo ([1a0498d](https://github.com/pabrahamsson/rpmostree_exporter/commit/1a0498ddf6b9a6640f36e519ae6274d7e7da0641))
+* **pac:** results syntax ([c862e02](https://github.com/pabrahamsson/rpmostree_exporter/commit/c862e02fa3ce182f8623b84381fa9624172a798b))
+* **pac:** Step names must be rfc1123 ([aadba30](https://github.com/pabrahamsson/rpmostree_exporter/commit/aadba3028f924c4fde67fd092593e918d72bb707))
+* **pac:** Use parentheses to expand env vars ([901598a](https://github.com/pabrahamsson/rpmostree_exporter/commit/901598a0895b0afe2f58eb688dcb0023b9b455f5))
+* **pac:** Variable syntax in script section ([f328a40](https://github.com/pabrahamsson/rpmostree_exporter/commit/f328a407f1abeb69e7d90066f3d6aac7341d4062))
+* **pac:** workingDir typo ([ce3e397](https://github.com/pabrahamsson/rpmostree_exporter/commit/ce3e39780eee9d40074855ec76a773ddb41ae7f7))
+
 ## [0.4.2](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.4.1...v0.4.2) (2025-04-29)
 
 
