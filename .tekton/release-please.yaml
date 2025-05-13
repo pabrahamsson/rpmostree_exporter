@@ -125,7 +125,7 @@ spec:
                 echo "release-tag: $(params.release-tag)"
 
                 if [[ "$(params.release-created)" != "true" ]]; then
-                  echo" No new release created, skipping artifact upload."
+                  echo "No new release created, skipping artifact upload."
                   exit 0
                 else
                   gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_amd64
