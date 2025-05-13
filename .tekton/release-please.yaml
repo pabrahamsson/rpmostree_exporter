@@ -46,7 +46,7 @@ spec:
               args:
                 - github-release
                 - --repo-url=pabrahamsson/rpmostree_exporter
-                - --token=$GH_TOKEN
+                - --token=$(GH_TOKEN)
               env:
                 - name: GH_TOKEN
                   valueFrom:
@@ -59,7 +59,7 @@ spec:
               args:
                 - release-pr
                 - --repo-url=pabrahamsson/rpmostree_exporter
-                - --token=$GH_TOKEN
+                - --token=$(GH_TOKEN)
               env:
                 - name: GH_TOKEN
                   valueFrom:
