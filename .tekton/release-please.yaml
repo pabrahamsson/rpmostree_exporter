@@ -46,7 +46,7 @@ spec:
               description: The ID of the release if one was created
           steps:
             - name: create-release
-              image: quay.io/pabrahamsson/release-please:17.0.0-3
+              image: quay.io/pabrahamsson/release-please:17.0.0-4
               workingDir: $(workspaces.source.path)
               args:
                 - github-release
@@ -59,7 +59,7 @@ spec:
                       name: github-token
                       key: token
             - name: create-release-pr
-              image: quay.io/pabrahamsson/release-please:17.0.0-3
+              image: quay.io/pabrahamsson/release-please:17.0.0-4
               env:
                 - name: GH_TOKEN
                   valueFrom:
