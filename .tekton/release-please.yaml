@@ -101,8 +101,10 @@ spec:
           params:
             - name: release-created
               value: $(tasks.release-please.results.release-created)
+              default: "false"
             - name: release-tag
               value: $(tasks.release-please.results.release-tag)
+              default: "v0.0.0"
           steps:
             - name: upload-release-artifacts-if-release-created
               image: quay.io/pabrahamsson/gh-cli:2.67.0
