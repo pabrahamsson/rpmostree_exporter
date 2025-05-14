@@ -144,22 +144,23 @@ spec:
                 echo "Latest release: $TAG_NAME - $RELEASE_NAME"
 
                 # Check if this is a new release by comparing with recent git history
-                git config --global --add safe.directory $(pwd)
-                git fetch --tags
+                #git config --global --add safe.directory $(pwd)
+                #git fetch --tags
 
                 # Check if the tag exists in local git history, if not it's likely new
-                if git rev-parse -q --verify "refs/tags/$TAG_NAME" >/dev/null; then
-                  # Tag exists locally - probably not a new release
-                  echo -n "false" | tee "$(results.release-created.path)"
-                  echo
-                  echo "Release with tag $TAG_NAME already exists locally."
-                else
-                  echo -n "true" | tee "$(results.release-created.path)"
-                  echo
-                  echo "New release detected with tag $TAG_NAME."
-                fi
+                #if git rev-parse -q --verify "refs/tags/$TAG_NAME" >/dev/null; then
+                #  # Tag exists locally - probably not a new release
+                #  echo -n "false" | tee "$(results.release-created.path)"
+                #  echo
+                #  echo "Release with tag $TAG_NAME already exists locally."
+                #else
+                #  echo -n "true" | tee "$(results.release-created.path)"
+                #  echo
+                #  echo "New release detected with tag $TAG_NAME."
+                #fi
 
                 # Store the tag name and release ID for potential use by later tasks
+                echo -n "$(tasks.release-please.results.release-created)" | tee "$(results.release-created.path)"
                 echo -n "$TAG_NAME" | tee "$(results.release-tag.path)"
                 echo -n "$RELEASE_ID" | tee "$(results.release-id.path)"
       - name: build-and-upload-release-artifacts
