@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.6.0...v0.6.1) (2025-05-14)
+
+
+### Bug Fixes
+
+* **pac:** Remove duplicate gh release step ([fd7812d](https://github.com/pabrahamsson/rpmostree_exporter/commit/fd7812d44e87a0b157959a21b48186c9bce29327))
+
 ## [0.6.0](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.5.2...v0.6.0) (2025-05-14)
 
 
