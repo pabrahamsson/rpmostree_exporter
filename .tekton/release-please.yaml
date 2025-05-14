@@ -67,12 +67,10 @@ spec:
                 # Check if a release PR was created or updated
                 PR_REGEX='^.*Successfully (opened|updated) pull request.*$'
                 if [[ $PR_RESULT =~ $PR_REGEX ]]; then
-                  echo -n "true" | tee $(results.release-pr-created.path)
-                  echo
+                  printf "%s" "true" > "$(results.release-pr-created.path)"
                   echo "Release PR was created or updated."
                 else
-                  echo -n "false" | tee $(results.release-pr-created.path)
-                  echo
+                  printf "%s" "false" > "$(results.release-pr-created.path)"
                   echo "No updates to Release PR needed."
                 fi
 
@@ -87,12 +85,10 @@ spec:
                 # Check if a new release was created
                 RELEASE_REGEX='^.*Creating [0-9]+ releases.*$'
                 if [[ $RELEASE_RESULT =~ $RELEASE_REGEX ]]; then
-                  echo -n "true" | tee $(results.release-created.path)
-                  echo
+                  printf "%s" "true" > "$(results.release-created.path)"
                   echo "New GitHub release was created."
                 else
-                  echo -n "false" | tee $(results.release-created.path)
-                  echo
+                  printf "%s" "false" > "$(results.release-created.path)"
                   echo "No new GitHub release was needed."
                 fi
           workspaces:
@@ -160,14 +156,13 @@ spec:
                 #fi
 
                 # Store the tag name and release ID for potential use by later tasks
-                echo -n "$(tasks.release-please.results.release-created)" | tee $(results.release-created.path)
-                echo -n "$TAG_NAME" | tee $(results.release-tag.path)
-                echo -n "$RELEASE_ID" | tee $(results.release-id.path)
+                printf "%s" "$(tasks.release-please.results.release-created)" > "$(results.release-created.path)"
+                printf "%s" "$TAG_NAME" > "$(results.release-tag.path)"
+                printf "%s" "$RELEASE_ID" > "$(results.release-id.path)"
                 echo "release-created: $(tasks.release-please.results.release-created)"
       - name: build-and-upload-release-artifacts
         runAfter:
-          #- check-release-status
-          - release-please
+          - check-release-status
         workspaces:
           - name: source
             workspace: source
