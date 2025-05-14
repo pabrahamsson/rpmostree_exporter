@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.2](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.6.1...v0.6.2) (2025-05-14)
+
+
+### Bug Fixes
+
+* **pac:** Disable local release check ([df7ecf6](https://github.com/pabrahamsson/rpmostree_exporter/commit/df7ecf65750142f8411fe538f1c05fac526682bc))
+
 ## [0.6.1](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.6.0...v0.6.1) (2025-05-14)
 
 
