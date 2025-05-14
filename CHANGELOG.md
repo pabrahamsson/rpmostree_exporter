@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.4](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.6.3...v0.6.4) (2025-05-14)
+
+
+### Bug Fixes
+
+* **pac:** Add release task ([b4cb157](https://github.com/pabrahamsson/rpmostree_exporter/commit/b4cb15734e6a0f5aa93aaf9e4e01e4a6eb4a5800))
+* **pac:** Break out tasks ([9269711](https://github.com/pabrahamsson/rpmostree_exporter/commit/9269711cff575f1157ec75ddbc2e236c9a175158))
+* **pac:** Fix task ordering issue ([082f854](https://github.com/pabrahamsson/rpmostree_exporter/commit/082f854749ab09c6351d4642f95006df9c1ac944))
+* **pac:** params testing ([5d4d34a](https://github.com/pabrahamsson/rpmostree_exporter/commit/5d4d34a6c658f5fa893b5b7e56a1a1225b6dd7c2))
+* **pac:** Quote param vars ([30e7ae5](https://github.com/pabrahamsson/rpmostree_exporter/commit/30e7ae57fb8633824c80e27caae218d1c55b5301))
+* **pac:** results -&gt; params changes ([b2264f4](https://github.com/pabrahamsson/rpmostree_exporter/commit/b2264f45226ef5e1316c95e4b44272f552552f1d))
+
 ## [0.6.3](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.6.2...v0.6.3) (2025-05-14)
 
 
