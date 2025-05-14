@@ -50,14 +50,21 @@ spec:
         workspaces:
           - name: source
             workspace: source
-  #      - name: build-and-upload-release-artifacts
-  #        runAfter:
-  #          - check-release-status
-  #        taskRef:
-  #          name: build-and-upload-release-artifacts
-  #        workspaces:
-  #          - name: source
-  #            workspace: source
+      - name: build-and-upload-release-artifacts
+        runAfter:
+          - check-release-status
+        taskRef:
+          name: build-and-upload-release-artifacts
+        params:
+          - name: release-created
+            value: "$(tasks.check-release-status.results.release-created)"
+          - name: release-tag
+            value: "$(tasks.check-release-status.results.release-tag)"
+          - name: release-id
+            value: "$(tasks.check-release-status.results.release-id)"
+        workspaces:
+          - name: source
+            workspace: source
   workspaces:
     - name: source
       volumeClaimTemplate:
@@ -195,10 +202,10 @@ spec:
         #fi
 
         # Store the tag name and release ID for potential use by later tasks
-        printf "%s" "$(tasks.release-please.results.release-created)" > "$(results.release-created.path)"
+        printf "%s" "$(params.release-created)" > "$(results.release-created.path)"
         printf "%s" "$TAG_NAME" > "$(results.release-tag.path)"
         printf "%s" "$RELEASE_ID" > "$(results.release-id.path)"
-        echo "release-created: $(tasks.release-please.results.release-created)"
+        echo "release-created: $(params.release-created)"
 ---
 apiVersion: tekton.dev/v1
 kind: Task
