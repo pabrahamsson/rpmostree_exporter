@@ -100,6 +100,9 @@ spec:
           - name: source
             workspace: source
         taskSpec:
+          params:
+            - name: release-created
+              value: "$(tasks.release-please.results.release-created)"
           results:
             - name: release-created
               description: True if a new release was created, false otherwise
@@ -160,67 +163,67 @@ spec:
                 printf "%s" "$TAG_NAME" > "$(results.release-tag.path)"
                 printf "%s" "$RELEASE_ID" > "$(results.release-id.path)"
                 echo "release-created: $(tasks.release-please.results.release-created)"
-      - name: build-and-upload-release-artifacts
-        runAfter:
-          - check-release-status
-        workspaces:
-          - name: source
-            workspace: source
-        taskSpec:
-          params:
-            - name: release-created
-              value: "$(tasks.check-release-status.results.release-created)"
-            - name: release-tag
-              value: "$(tasks.check-release-status.results.release-tag)"
-            - name: release-id
-              value: "$(tasks.check-release-status.results.release-id)"
-          steps:
-            - name: build-artifacts
-              image: registry.access.redhat.com/ubi9/go-toolset:9.5-1747059472
-              workingDir: $(workspaces.source.path)
-              script: |
-                $!/usr/bin/env bash
-                set -e
-
-                echo "release-created: $(params.release-created)"
-                echo "release-tag: $(params.release-tag)"
-                echo "release-id: $(params.release-id)"
-
-                if [[ "$(params.release-created)" != "true" ]]; then
-                  echo "Skipping artifact build."
-                  exit 0
-                fi
-
-                echo "Building project artifacts for release $(params.release-tag)..."
-
-                git config --global --add safe.directory $(pwd)
-                make && make gotest && make clean
-
-                echo "New release detected with tag $(params.release-tag). Proceeding with artifact upload."
-
-            - name: upload-artifacts
-              image: quay.io/pabrahamsson/gh-cli:2.72.0-1
-              workingDir: $(workspaces.source.path)
-              env:
-                - name: GITHUB_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: github-token
-                      key: token
-              script: |
-                #!/usr/bin/env bash
-                set -e
-
-                if [[ "$(params.release-created)" != "true" ]]; then
-                  echo "Skipping artifact build."
-                  exit 0
-                fi
-
-                echo "Uploading artifacts to GitHub release $(params.release-tag)..."
-
-                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_amd64
-                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_arm64
-                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_checksums.txt
+          #      - name: build-and-upload-release-artifacts
+          #        runAfter:
+          #          - check-release-status
+          #        workspaces:
+          #          - name: source
+          #            workspace: source
+          #        taskSpec:
+          #          params:
+          #            - name: release-created
+          #              value: "$(tasks.check-release-status.results.release-created)"
+          #            - name: release-tag
+          #              value: "$(tasks.check-release-status.results.release-tag)"
+          #            - name: release-id
+          #              value: "$(tasks.check-release-status.results.release-id)"
+          #          steps:
+          #            - name: build-artifacts
+          #              image: registry.access.redhat.com/ubi9/go-toolset:9.5-1747059472
+          #              workingDir: $(workspaces.source.path)
+          #              script: |
+          #                $!/usr/bin/env bash
+          #                set -e
+          #
+          #                echo "release-created: $(params.release-created)"
+          #                echo "release-tag: $(params.release-tag)"
+          #                echo "release-id: $(params.release-id)"
+          #
+          #                if [[ "$(params.release-created)" != "true" ]]; then
+          #                  echo "Skipping artifact build."
+          #                  exit 0
+          #                fi
+          #
+          #                echo "Building project artifacts for release $(params.release-tag)..."
+          #
+          #                git config --global --add safe.directory $(pwd)
+          #                make && make gotest && make clean
+          #
+          #                echo "New release detected with tag $(params.release-tag). Proceeding with artifact upload."
+          #
+          #            - name: upload-artifacts
+          #              image: quay.io/pabrahamsson/gh-cli:2.72.0-1
+          #              workingDir: $(workspaces.source.path)
+          #              env:
+          #                - name: GITHUB_TOKEN
+          #                  valueFrom:
+          #                    secretKeyRef:
+          #                      name: github-token
+          #                      key: token
+          #              script: |
+          #                #!/usr/bin/env bash
+          #                set -e
+          #
+          #                if [[ "$(params.release-created)" != "true" ]]; then
+          #                  echo "Skipping artifact build."
+          #                  exit 0
+          #                fi
+          #
+          #                echo "Uploading artifacts to GitHub release $(params.release-tag)..."
+          #
+          #                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_amd64
+          #                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_arm64
+          #                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_checksums.txt
           workspaces:
             - name: source
   workspaces:
