@@ -1,3 +1,1 @@
 # rpmostree_exporter
-
-## Requirements
