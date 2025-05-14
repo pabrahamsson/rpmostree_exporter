@@ -157,6 +157,7 @@ spec:
                 echo "Latest release: $TAG_NAME - $RELEASE_NAME"
 
                 # Check if this is a new release by comparing with recent git history
+                git config --global --add safe.directory $(pwd)
                 git fetch --tags
 
                 # Check if the tag exists in local git history, if not it's likely new
