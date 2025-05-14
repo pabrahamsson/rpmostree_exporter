@@ -163,6 +163,7 @@ spec:
                 echo -n "$(tasks.release-please.results.release-created)" | tee "$(results.release-created.path)"
                 echo -n "$TAG_NAME" | tee "$(results.release-tag.path)"
                 echo -n "$RELEASE_ID" | tee "$(results.release-id.path)"
+                echo "release-created: $(tasks.release-please.results.release-created)"
       - name: build-and-upload-release-artifacts
         runAfter:
           - check-release-status
@@ -181,23 +182,14 @@ spec:
               value: $(tasks.check-release-status.results.release-id)
               default: 0.0.0
           steps:
-            - name: check-if-release-created
-              image: registry.access.redhat.com/ubi9/ubi-minimal:latest
-              script: |
-                #/usr/bin/env bash
-                set -e
-
-                if [[ "$(params.release-created)" != "true" ]]; then
-                  echo "No new release detected, skipping artifact upload."
-                  exit 0
-                fi
-
             - name: build-artifacts
               image: registry.access.redhat.com/ubi9/go-toolset:9.5-1747059472
               workingDir: $(workspaces.source.path)
               script: |
                 $!/usr/bin/env bash
                 set -e
+
+                echo "release-created: $(params.release-created)"
 
                 if [[ "$(params.release-created)" != "true" ]]; then
                   echo "Skipping artifact build."
