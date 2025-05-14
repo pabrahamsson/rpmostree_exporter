@@ -1,3 +1,4 @@
+---
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
@@ -33,199 +34,30 @@ spec:
       - name: release-please
         runAfter:
           - fetch-repository
+        taskRef:
+          name: release-please
         workspaces:
           - name: source
             workspace: source
-        taskSpec:
-          results:
-            - name: release-created
-              description: True if a new release was created, false otherwise
-            - name: release-pr-created
-              description: Wheter a new release PR was created or updated
-          steps:
-            - name: create-release-pr
-              image: quay.io/pabrahamsson/release-please:17.0.0-4
-              env:
-                - name: GH_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: github-token
-                      key: token
-              workingDir: $(workspaces.source.path)
-              script: |
-                #!/usr/bin/env bash
-                set -e
-
-                # Run release-please to create/update PR
-                PR_RESULT=$(release-please release-pr \
-                  --repo-url=pabrahamsson/rpmostree_exporter \
-                  --token=$GH_TOKEN \
-                  --debug || echo "No release PR updates needed")
-
-                echo "PR_RESULT: $PR_RESULT"
-
-                # Check if a release PR was created or updated
-                PR_REGEX='^.*Successfully (opened|updated) pull request.*$'
-                if [[ $PR_RESULT =~ $PR_REGEX ]]; then
-                  printf "%s" "true" > "$(results.release-pr-created.path)"
-                  echo "Release PR was created or updated."
-                else
-                  printf "%s" "false" > "$(results.release-pr-created.path)"
-                  echo "No updates to Release PR needed."
-                fi
-
-                # Create a GitHub release if needed
-                RELEASE_RESULT=$(release-please github-release \
-                  --repo-url=pabrahamsson/rpmostree_exporter \
-                  --token=$GH_TOKEN \
-                  --debug || echo "No new release created")
-
-                echo "RELEASE_RESULT: $RELEASE_RESULT"
-
-                # Check if a new release was created
-                RELEASE_REGEX='^.*Creating [0-9]+ releases.*$'
-                if [[ $RELEASE_RESULT =~ $RELEASE_REGEX ]]; then
-                  printf "%s" "true" > "$(results.release-created.path)"
-                  echo "New GitHub release was created."
-                else
-                  printf "%s" "false" > "$(results.release-created.path)"
-                  echo "No new GitHub release was needed."
-                fi
-          workspaces:
-            - name: source
       - name: check-release-status
         runAfter:
           - release-please
+        taskRef:
+          name: check-release-status
+        params:
+          - name: release-created
+            value: "$(tasks.release-please.results.release-created)"
         workspaces:
           - name: source
             workspace: source
-        taskSpec:
-          params:
-            - name: release-created
-              value: "$(tasks.release-please.results.release-created)"
-          results:
-            - name: release-created
-              description: True if a new release was created, false otherwise
-            - name: release-tag
-              description: The tag name of the release if one was created
-            - name: release-id
-              description: The ID of the release if one was created
-          steps:
-            - name: check-release
-              image: quay.io/pabrahamsson/git:2.47.1-1
-              env:
-                - name: GITHUB_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: github-token
-                      key: token
-              workingDir: $(workspaces.source.path)
-              script: |
-                #!/usr/bin/env bash
-                set -e
-
-                # Check for open PRs from release-please
-                echo "Checking for open Release Please pull requests..."
-                curl -s -H "Authorization: token $GITHUB_TOKEN" \
-                  "https://api.github.com/repos/pabrahamsson/rpmostree_exporter/pulls?head=pabrahamsson:release-please" | \
-                  jq -r '.[] | "Found PR #\(.number): \(.title)"'
-
-                # Check for latest release
-                echo "Checking latest release information..."
-                LATEST_RELEASE=$(curl -s H "Authorization: token $GITHUB_TOKEN" \
-                  "https://api.github.com/repos/pabrahamsson/rpmostree_exporter/releases/latest")
-
-                # Get the tag name and display info
-                TAG_NAME=$(echo $LATEST_RELEASE | jq -r '.tag_name')
-                RELEASE_NAME=$(echo $LATEST_RELEASE | jq -r '.name')
-                RELEASE_ID=$(echo $LATEST_RELEASE | jq -r '.id')
-
-                echo "Latest release: $TAG_NAME - $RELEASE_NAME"
-
-                # Check if this is a new release by comparing with recent git history
-                #git config --global --add safe.directory $(pwd)
-                #git fetch --tags
-
-                # Check if the tag exists in local git history, if not it's likely new
-                #if git rev-parse -q --verify "refs/tags/$TAG_NAME" >/dev/null; then
-                #  # Tag exists locally - probably not a new release
-                #  echo -n "false" | tee "$(results.release-created.path)"
-                #  echo
-                #  echo "Release with tag $TAG_NAME already exists locally."
-                #else
-                #  echo -n "true" | tee "$(results.release-created.path)"
-                #  echo
-                #  echo "New release detected with tag $TAG_NAME."
-                #fi
-
-                # Store the tag name and release ID for potential use by later tasks
-                printf "%s" "$(tasks.release-please.results.release-created)" > "$(results.release-created.path)"
-                printf "%s" "$TAG_NAME" > "$(results.release-tag.path)"
-                printf "%s" "$RELEASE_ID" > "$(results.release-id.path)"
-                echo "release-created: $(tasks.release-please.results.release-created)"
-          #      - name: build-and-upload-release-artifacts
-          #        runAfter:
-          #          - check-release-status
-          #        workspaces:
-          #          - name: source
-          #            workspace: source
-          #        taskSpec:
-          #          params:
-          #            - name: release-created
-          #              value: "$(tasks.check-release-status.results.release-created)"
-          #            - name: release-tag
-          #              value: "$(tasks.check-release-status.results.release-tag)"
-          #            - name: release-id
-          #              value: "$(tasks.check-release-status.results.release-id)"
-          #          steps:
-          #            - name: build-artifacts
-          #              image: registry.access.redhat.com/ubi9/go-toolset:9.5-1747059472
-          #              workingDir: $(workspaces.source.path)
-          #              script: |
-          #                $!/usr/bin/env bash
-          #                set -e
-          #
-          #                echo "release-created: $(params.release-created)"
-          #                echo "release-tag: $(params.release-tag)"
-          #                echo "release-id: $(params.release-id)"
-          #
-          #                if [[ "$(params.release-created)" != "true" ]]; then
-          #                  echo "Skipping artifact build."
-          #                  exit 0
-          #                fi
-          #
-          #                echo "Building project artifacts for release $(params.release-tag)..."
-          #
-          #                git config --global --add safe.directory $(pwd)
-          #                make && make gotest && make clean
-          #
-          #                echo "New release detected with tag $(params.release-tag). Proceeding with artifact upload."
-          #
-          #            - name: upload-artifacts
-          #              image: quay.io/pabrahamsson/gh-cli:2.72.0-1
-          #              workingDir: $(workspaces.source.path)
-          #              env:
-          #                - name: GITHUB_TOKEN
-          #                  valueFrom:
-          #                    secretKeyRef:
-          #                      name: github-token
-          #                      key: token
-          #              script: |
-          #                #!/usr/bin/env bash
-          #                set -e
-          #
-          #                if [[ "$(params.release-created)" != "true" ]]; then
-          #                  echo "Skipping artifact build."
-          #                  exit 0
-          #                fi
-          #
-          #                echo "Uploading artifacts to GitHub release $(params.release-tag)..."
-          #
-          #                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_amd64
-          #                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_arm64
-          #                gh release upload $(params.release-tag) ./bin/rpmostree_exporter_checksums.txt
-          workspaces:
-            - name: source
+  #      - name: build-and-upload-release-artifacts
+  #        runAfter:
+  #          - check-release-status
+  #        taskRef:
+  #          name: build-and-upload-release-artifacts
+  #        workspaces:
+  #          - name: source
+  #            workspace: source
   workspaces:
     - name: source
       volumeClaimTemplate:
@@ -235,3 +67,194 @@ spec:
           resources:
             requests:
               storage: 1Gi
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: release-please
+spec:
+  results:
+    - name: release-created
+      description: True if a new release was created, false otherwise
+    - name: release-pr-created
+      description: Whether a new release PR was created or updated
+  workspaces:
+    - name: source
+  steps:
+    - name: create-release-pr
+      image: quay.io/pabrahamsson/release-please:17.0.0-4
+      env:
+        - name: GH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: github-token
+              key: token
+      workingDir: $(workspaces.source.path)
+      script: |
+        #!/usr/bin/env bash
+        set -e
+
+        # Run release-please to create/update PR
+        PR_RESULT=$(release-please release-pr \
+          --repo-url=pabrahamsson/rpmostree_exporter \
+          --token=$GH_TOKEN \
+          --debug || echo "No release PR updates needed")
+
+        echo "PR_RESULT: $PR_RESULT"
+
+        # Check if a release PR was created or updated
+        PR_REGEX='^.*Successfully (opened|updated) pull request.*$'
+        if [[ $PR_RESULT =~ $PR_REGEX ]]; then
+          printf "%s" "true" > "$(results.release-pr-created.path)"
+          echo "Release PR was created or updated."
+        else
+          printf "%s" "false" > "$(results.release-pr-created.path)"
+          echo "No updates to Release PR needed."
+        fi
+
+        # Create a GitHub release if needed
+        RELEASE_RESULT=$(release-please github-release \
+          --repo-url=pabrahamsson/rpmostree_exporter \
+          --token=$GH_TOKEN \
+          --debug || echo "No new release created")
+
+        echo "RELEASE_RESULT: $RELEASE_RESULT"
+
+        # Check if a new release was created
+        RELEASE_REGEX='^.*Creating [0-9]+ releases.*$'
+        if [[ $RELEASE_RESULT =~ $RELEASE_REGEX ]]; then
+          printf "%s" "true" > "$(results.release-created.path)"
+          echo "New GitHub release was created."
+        else
+          printf "%s" "false" > "$(results.release-created.path)"
+          echo "No new GitHub release was needed."
+        fi
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: check-release-status
+spec:
+  params:
+    - name: release-created
+  results:
+    - name: release-created
+      description: True if a new release was created, false otherwise
+    - name: release-tag
+      description: The tag name of the release if one was created
+    - name: release-id
+      description: The ID of the release if one was created
+  workspaces:
+    - name: source
+  steps:
+    - name: check-release
+      image: quay.io/pabrahamsson/git:2.47.1-1
+      env:
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: github-token
+              key: token
+      workingDir: $(workspaces.source.path)
+      script: |
+        #!/usr/bin/env bash
+        set -e
+
+        # Check for open PRs from release-please
+        echo "Checking for open Release Please pull requests..."
+        curl -s -H "Authorization: token $GITHUB_TOKEN" \
+          "https://api.github.com/repos/pabrahamsson/rpmostree_exporter/pulls?head=pabrahamsson:release-please" | \
+          jq -r '.[] | "Found PR #\(.number): \(.title)"'
+
+        # Check for latest release
+        echo "Checking latest release information..."
+        LATEST_RELEASE=$(curl -s H "Authorization: token $GITHUB_TOKEN" \
+          "https://api.github.com/repos/pabrahamsson/rpmostree_exporter/releases/latest")
+
+        # Get the tag name and display info
+        TAG_NAME=$(echo $LATEST_RELEASE | jq -r '.tag_name')
+        RELEASE_NAME=$(echo $LATEST_RELEASE | jq -r '.name')
+        RELEASE_ID=$(echo $LATEST_RELEASE | jq -r '.id')
+
+        echo "Latest release: $TAG_NAME - $RELEASE_NAME"
+
+        # Check if this is a new release by comparing with recent git history
+        #git config --global --add safe.directory $(pwd)
+        #git fetch --tags
+
+        # Check if the tag exists in local git history, if not it's likely new
+        #if git rev-parse -q --verify "refs/tags/$TAG_NAME" >/dev/null; then
+        #  # Tag exists locally - probably not a new release
+        #  echo -n "false" | tee "$(results.release-created.path)"
+        #  echo
+        #  echo "Release with tag $TAG_NAME already exists locally."
+        #else
+        #  echo -n "true" | tee "$(results.release-created.path)"
+        #  echo
+        #  echo "New release detected with tag $TAG_NAME."
+        #fi
+
+        # Store the tag name and release ID for potential use by later tasks
+        printf "%s" "$(tasks.release-please.results.release-created)" > "$(results.release-created.path)"
+        printf "%s" "$TAG_NAME" > "$(results.release-tag.path)"
+        printf "%s" "$RELEASE_ID" > "$(results.release-id.path)"
+        echo "release-created: $(tasks.release-please.results.release-created)"
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: build-and-upload-release-artifacts
+spec:
+  params:
+    - name: release-created
+    - name: release-tag
+    - name: release-id
+  workspaces:
+    - name: source
+  steps:
+    - name: build-artifacts
+      image: registry.access.redhat.com/ubi9/go-toolset:9.5-1747059472
+      workingDir: $(workspaces.source.path)
+      script: |
+        $!/usr/bin/env bash
+        set -e
+
+        echo "release-created: $(params.release-created)"
+        echo "release-tag: $(params.release-tag)"
+        echo "release-id: $(params.release-id)"
+
+        if [[ "$(params.release-created)" != "true" ]]; then
+          echo "Skipping artifact build."
+          exit 0
+        fi
+
+        echo "Building project artifacts for release $(params.release-tag)..."
+
+        git config --global --add safe.directory $(pwd)
+        make && make gotest && make clean
+
+        echo "New release detected with tag $(params.release-tag). Proceeding with artifact upload."
+
+    - name: upload-artifacts
+      image: quay.io/pabrahamsson/gh-cli:2.72.0-1
+      workingDir: $(workspaces.source.path)
+      env:
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: github-token
+              key: token
+      script: |
+        #!/usr/bin/env bash
+        set -e
+
+        if [[ "$(params.release-created)" != "true" ]]; then
+          echo "Skipping artifact build."
+          exit 0
+        fi
+
+        echo "Uploading artifacts to GitHub release $(params.release-tag)..."
+
+        gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_amd64
+        gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_arm64
+        gh release upload $(params.release-tag) ./bin/rpmostree_exporter_checksums.txt
