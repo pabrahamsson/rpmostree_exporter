@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.5.0...v0.5.1) (2025-05-14)
+
+
+### Bug Fixes
+
+* **pac:** Fix GH release creation regex ([485f7e7](https://github.com/pabrahamsson/rpmostree_exporter/commit/485f7e7635e37d57429a57e5ff80ecf940634c91))
+
 ## [0.5.0](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.4.2...v0.5.0) (2025-05-13)
 
 
