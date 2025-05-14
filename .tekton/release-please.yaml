@@ -174,11 +174,11 @@ spec:
         taskSpec:
           params:
             - name: release-created
-              value: $(tasks.check-release-status.results.release-created)
+              value: "$(tasks.check-release-status.results.release-created)"
             - name: release-tag
-              value: $(tasks.check-release-status.results.release-tag)
+              value: "$(tasks.check-release-status.results.release-tag)"
             - name: release-id
-              value: $(tasks.check-release-status.results.release-id)
+              value: "$(tasks.check-release-status.results.release-id)"
           steps:
             - name: build-artifacts
               image: registry.access.redhat.com/ubi9/go-toolset:9.5-1747059472
