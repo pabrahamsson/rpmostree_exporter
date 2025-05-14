@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.5](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.6.4...v0.6.5) (2025-05-14)
+
+
+### Bug Fixes
+
+* **pac:** Don't delete artifacts before uploading ([0562491](https://github.com/pabrahamsson/rpmostree_exporter/commit/0562491b9a9425adc7a2f7cccc6a020cbc1ac995))
+
 ## [0.6.4](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.6.3...v0.6.4) (2025-05-14)
 
 
