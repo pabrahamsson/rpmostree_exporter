@@ -243,7 +243,7 @@ spec:
         echo "New release detected with tag $(params.release-tag). Proceeding with artifact upload."
 
     - name: upload-artifacts
-      image: quay.io/pabrahamsson/gh-cli:2.72.0-1
+      image: quay.io/pabrahamsson/gh-cli:2.72.0-2
       workingDir: $(workspaces.source.path)
       env:
         - name: GITHUB_TOKEN
@@ -262,6 +262,7 @@ spec:
 
         echo "Uploading artifacts to GitHub release $(params.release-tag)..."
 
+        git config --global --add safe.directory $(pwd)
         gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_amd64
         gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_arm64
         gh release upload $(params.release-tag) ./bin/rpmostree_exporter_checksums.txt
