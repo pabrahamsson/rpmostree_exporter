@@ -67,11 +67,11 @@ spec:
                 # Check if a release PR was created or updated
                 PR_REGEX='^.*Successfully (opened|updated) pull request.*$'
                 if [[ $PR_RESULT =~ $PR_REGEX ]]; then
-                  echo -n "true" | tee "$(results.release-pr-created.path)"
+                  echo -n "true" | tee $(results.release-pr-created.path)
                   echo
                   echo "Release PR was created or updated."
                 else
-                  echo -n "false" | tee "$(results.release-pr-created.path)"
+                  echo -n "false" | tee $(results.release-pr-created.path)
                   echo
                   echo "No updates to Release PR needed."
                 fi
@@ -87,11 +87,11 @@ spec:
                 # Check if a new release was created
                 RELEASE_REGEX='^.*Creating [0-9]+ releases.*$'
                 if [[ $RELEASE_RESULT =~ $RELEASE_REGEX ]]; then
-                  echo -n "true" | tee "$(results.release-created.path)"
+                  echo -n "true" | tee $(results.release-created.path)
                   echo
                   echo "New GitHub release was created."
                 else
-                  echo -n "false" | tee "$(results.release-created.path)"
+                  echo -n "false" | tee $(results.release-created.path)
                   echo
                   echo "No new GitHub release was needed."
                 fi
@@ -160,13 +160,14 @@ spec:
                 #fi
 
                 # Store the tag name and release ID for potential use by later tasks
-                echo -n "$(tasks.release-please.results.release-created)" | tee "$(results.release-created.path)"
-                echo -n "$TAG_NAME" | tee "$(results.release-tag.path)"
-                echo -n "$RELEASE_ID" | tee "$(results.release-id.path)"
+                echo -n "$(tasks.release-please.results.release-created)" | tee $(results.release-created.path)
+                echo -n "$TAG_NAME" | tee $(results.release-tag.path)
+                echo -n "$RELEASE_ID" | tee $(results.release-id.path)
                 echo "release-created: $(tasks.release-please.results.release-created)"
       - name: build-and-upload-release-artifacts
         runAfter:
-          - check-release-status
+          #- check-release-status
+          - release-please
         workspaces:
           - name: source
             workspace: source
@@ -174,13 +175,10 @@ spec:
           params:
             - name: release-created
               value: $(tasks.check-release-status.results.release-created)
-              default: false
             - name: release-tag
               value: $(tasks.check-release-status.results.release-tag)
-              default: "v0.0.0"
             - name: release-id
               value: $(tasks.check-release-status.results.release-id)
-              default: 0.0.0
           steps:
             - name: build-artifacts
               image: registry.access.redhat.com/ubi9/go-toolset:9.5-1747059472
@@ -190,6 +188,8 @@ spec:
                 set -e
 
                 echo "release-created: $(params.release-created)"
+                echo "release-tag: $(params.release-tag)"
+                echo "release-id: $(params.release-id)"
 
                 if [[ "$(params.release-created)" != "true" ]]; then
                   echo "Skipping artifact build."
@@ -201,15 +201,7 @@ spec:
                 git config --global --add safe.directory $(pwd)
                 make && make gotest && make clean
 
-                echo "New release detected with tag $(params.release-tag). Proceeding with artifact build and upload."
-
-                echo "release-created: $(params.release-created)"
-                echo "release-tag: $(params.release-tag)"
-
-                if [[ "$(params.release-created)" != "true" ]]; then
-                  echo "No new release created, skipping artifact upload."
-                  exit 0
-                fi
+                echo "New release detected with tag $(params.release-tag). Proceeding with artifact upload."
 
             - name: upload-artifacts
               image: quay.io/pabrahamsson/gh-cli:2.72.0-1
