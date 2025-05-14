@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.6](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.6.5...v0.6.6) (2025-05-14)
+
+
+### Bug Fixes
+
+* **pac:** Add git safe.directory ([44a33b0](https://github.com/pabrahamsson/rpmostree_exporter/commit/44a33b0c91f6064daf8ca3504b1e39c66ab9bcc9))
+
 ## [0.6.5](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.6.4...v0.6.5) (2025-05-14)
 
 
