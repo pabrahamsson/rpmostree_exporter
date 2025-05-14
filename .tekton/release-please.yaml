@@ -43,19 +43,6 @@ spec:
             - name: release-pr-created
               description: Wheter a new release PR was created or updated
           steps:
-            - name: create-release
-              image: quay.io/pabrahamsson/release-please:17.0.0-4
-              workingDir: $(workspaces.source.path)
-              args:
-                - github-release
-                - --repo-url=pabrahamsson/rpmostree_exporter
-                - --token=$(GH_TOKEN)
-              env:
-                - name: GH_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: github-token
-                      key: token
             - name: create-release-pr
               image: quay.io/pabrahamsson/release-please:17.0.0-4
               env:
