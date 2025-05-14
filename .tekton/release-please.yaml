@@ -184,10 +184,13 @@ spec:
           params:
             - name: release-created
               value: $(tasks.check-release-status.results.release-created)
+              default: false
             - name: release-tag
               value: $(tasks.check-release-status.results.release-tag)
+              default: "v0.0.0"
             - name: release-id
               value: $(tasks.check-release-status.results.release-id)
+              default: 0.0.0
           steps:
             - name: check-if-release-created
               image: registry.access.redhat.com/ubi9/ubi-minimal:latest
