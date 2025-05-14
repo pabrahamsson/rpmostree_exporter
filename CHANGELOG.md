@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.6.0](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.5.2...v0.6.0) (2025-05-14)
+
+
+### Features
+
+* **pac:** Improve release pipeline & logic ([e6cecd5](https://github.com/pabrahamsson/rpmostree_exporter/commit/e6cecd501178271ca263dbd73f22ab0094852eba))
+
+
+### Bug Fixes
+
+* **pac:** Add param defaults ([6819f96](https://github.com/pabrahamsson/rpmostree_exporter/commit/6819f96297c08bfbd2330331e3f263512e7a8488))
+* **pac:** Use git safe.directory ([ec2aa7e](https://github.com/pabrahamsson/rpmostree_exporter/commit/ec2aa7e69813a9f444fe7ef952589443f80fc5e7))
+
 ## [0.5.2](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.5.1...v0.5.2) (2025-05-14)
 
 
