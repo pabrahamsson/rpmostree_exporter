@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.2](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.5.1...v0.5.2) (2025-05-14)
+
+
+### Bug Fixes
+
+* **pac:** README fixings ([e397829](https://github.com/pabrahamsson/rpmostree_exporter/commit/e39782902605eb0d43fb9c156410688c7e08d538))
+
 ## [0.5.1](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.5.0...v0.5.1) (2025-05-14)
 
 
