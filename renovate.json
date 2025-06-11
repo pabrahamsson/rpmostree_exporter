@@ -8,6 +8,5 @@
       "^\\.tekton/pipelinerun\\.yaml$",
       "^\\.tekton/release-please\\.yaml$"
     ]
-  },
-  "rebaseWhen": "never"
+  }
 }
