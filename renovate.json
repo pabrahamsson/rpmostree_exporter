@@ -4,9 +4,9 @@
     "config:best-practices"
   ],
   "kubernetes": {
-    "fileMatch": [
-      "^\\.tekton/pipelinerun\\.yaml$",
-      "^\\.tekton/release-please\\.yaml$"
+    "managerFilePatterns": [
+      "/^\\.tekton/pipelinerun\\.yaml$/",
+      "/^\\.tekton/release-please\\.yaml$/"
     ]
   }
 }
