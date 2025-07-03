@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.6.8...v0.7.0) (2025-07-03)
+
+
+### Features
+
+* **pac:** Upgrade to UBI 10 go-toolset images ([#73](https://github.com/pabrahamsson/rpmostree_exporter/issues/73)) ([8c2e77e](https://github.com/pabrahamsson/rpmostree_exporter/commit/8c2e77eefed8476350a3f64a4800af1ba1a26b43))
+
 ## [0.6.8](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.6.7...v0.6.8) (2025-06-30)
 
 
