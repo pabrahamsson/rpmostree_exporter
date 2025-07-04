@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.7.0...v0.7.1) (2025-07-04)
+
+
+### Bug Fixes
+
+* Add metadata to --version flag ([#77](https://github.com/pabrahamsson/rpmostree_exporter/issues/77)) ([e31c38d](https://github.com/pabrahamsson/rpmostree_exporter/commit/e31c38d0859ca812bbc4a37b5b7b10546aec21e1))
+
 ## [0.7.0](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.6.8...v0.7.0) (2025-07-03)
 
 
