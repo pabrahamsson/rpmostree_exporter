@@ -238,7 +238,7 @@ spec:
         echo "Building project artifacts for release $(params.release-tag)..."
 
         git config --global --add safe.directory $(pwd)
-        make && make gotest && make checksums
+        make VERSION=$(params.release-tag) && make gotest && make checksums
 
         echo "New release detected with tag $(params.release-tag). Proceeding with artifact upload."
 
