@@ -45,7 +45,7 @@ spec:
               workingDir: $(workspaces.source.path)
               script: |
                 git config --global --add safe.directory $(pwd) 
-                make && make gotest && make clean
+                make VERSION=$(params.revision) && ./bin/rpmostree_exporter_linux_amd64 --version && make gotest && make clean
 
   workspaces:
     - name: source
