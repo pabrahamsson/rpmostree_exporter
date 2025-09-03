@@ -26,7 +26,7 @@ const (
 )
 
 var (
-	clientId      = "rpmostree_exporter"
+	clientID      = "rpmostree_exporter"
 	rpmostreeInfo = prometheus.NewDesc(prometheus.BuildFQName(namespace, "version", "info"), "rpm-ostree info.", []string{"release_date", "version"}, nil)
 	rpmostreeUp   = prometheus.NewDesc(prometheus.BuildFQName(namespace, "", "up"), "Was the last scrape of rpm-ostree successful.", nil, nil)
 )
@@ -42,7 +42,7 @@ type Exporter struct {
 
 func NewExporter(logger slog.Logger) (*Exporter, error) {
 	return &Exporter{
-		client: client.NewClient(clientId),
+		client: client.NewClient(clientID),
 		totalScrapes: prometheus.NewCounter(prometheus.CounterOpts{
 			Namespace: namespace,
 			Name:      "exporter_scrapes_total",
@@ -130,7 +130,7 @@ func fetchUpdates(client client.Client, packages, booted_version, staged_version
 	*booted_version = booted.Version
 	if staged != nil {
 		*staged_version = staged.Version
-		c := newCmd(clientId, "db", "diff", "--format=json", booted.GetBaseChecksum(), staged.GetBaseChecksum())
+		c := newCmd(clientID, "db", "diff", "--format=json", booted.GetBaseChecksum(), staged.GetBaseChecksum())
 		buf, err := c.Output()
 		if err != nil {
 			return err
