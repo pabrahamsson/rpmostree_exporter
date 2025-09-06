@@ -9,7 +9,7 @@ require (
 	github.com/coreos/rpmostree-client-go v0.0.0-20240514234259-72a33e8554b6
 	github.com/prometheus/client_golang v1.23.2
 	github.com/prometheus/common v0.66.1
-	github.com/prometheus/exporter-toolkit v0.14.0
+	github.com/prometheus/exporter-toolkit v0.14.1
 )
 
 require (
@@ -18,7 +18,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/containers/image/v5 v5.30.1 // indirect
 	github.com/containers/storage v1.53.0 // indirect
-	github.com/coreos/go-systemd/v22 v22.5.0 // indirect
+	github.com/coreos/go-systemd/v22 v22.6.0 // indirect
 	github.com/grafana/regexp v0.0.0-20240518133315-a468a5bfb3bc // indirect
 	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
