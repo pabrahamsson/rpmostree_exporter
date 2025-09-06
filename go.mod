@@ -7,7 +7,7 @@ toolchain go1.25.1
 require (
 	github.com/alecthomas/kingpin/v2 v2.4.0
 	github.com/coreos/rpmostree-client-go v0.0.0-20240514234259-72a33e8554b6
-	github.com/prometheus/client_golang v1.23.1
+	github.com/prometheus/client_golang v1.23.2
 	github.com/prometheus/common v0.66.1
 	github.com/prometheus/exporter-toolkit v0.14.0
 )
