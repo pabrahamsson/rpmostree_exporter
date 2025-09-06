@@ -7,6 +7,7 @@
 
 * **deps:** update module github.com/prometheus/client_golang to v1.23.2 ([#106](https://github.com/pabrahamsson/rpmostree_exporter/issues/106)) ([c253cbe](https://github.com/pabrahamsson/rpmostree_exporter/commit/c253cbedc79299308105dd29d6620045fb6ec87a))
 * **deps:** update module github.com/prometheus/common to v0.66.1 ([#97](https://github.com/pabrahamsson/rpmostree_exporter/issues/97)) ([987e5f2](https://github.com/pabrahamsson/rpmostree_exporter/commit/987e5f25106756861b08ef34d9964890f894cc44))
+* **deps:** update module github.com/prometheus/exporter-toolkit to v0.14.1 ([#107](https://github.com/pabrahamsson/rpmostree_exporter/issues/107)) ([9fc495e](https://github.com/pabrahamsson/rpmostree_exporter/commit/9fc495e01f73f65ec37aa758b930aa1103e37057))
 
 ## [0.7.4](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.7.3...v0.7.4) (2025-09-04)
 
