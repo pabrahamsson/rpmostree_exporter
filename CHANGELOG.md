@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.6](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.7.5...v0.7.6) (2025-09-28)
+
+
+### Bug Fixes
+
+* **pac:** Tekton Hub is deprecated, use full url for remote tasks ([#111](https://github.com/pabrahamsson/rpmostree_exporter/issues/111)) ([7bbea0a](https://github.com/pabrahamsson/rpmostree_exporter/commit/7bbea0a999be99ce39c93e0f8d7d4d79b47d4fc1))
+
 ## [0.7.5](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.7.4...v0.7.5) (2025-09-06)
 
 
