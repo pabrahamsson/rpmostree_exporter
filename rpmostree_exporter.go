@@ -85,19 +85,19 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 func (e *Exporter) scrape(ch chan<- prometheus.Metric) (up float64) {
 	e.totalScrapes.Inc()
 	var err error
-	var packages, booted_version, staged_version string
+	var packages, bootedVersion, stagedVersion string
 
-	if err = fetchUpdates(e.client, &packages, &booted_version, &staged_version); err != nil {
+	if err = fetchUpdates(e.client, &packages, &bootedVersion, &stagedVersion); err != nil {
 		return 0
 	}
 
 	value := float64(0)
-	if staged_version != "" {
+	if stagedVersion != "" {
 		value = 1
 	}
 	desc := prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "", "updates_available"), "Is there a staged rpm-ostree deployment available.", []string{"booted", "staged", "packages"}, nil)
-	ch <- prometheus.MustNewConstMetric(desc, prometheus.GaugeValue, value, []string{booted_version, staged_version, packages}...)
+	ch <- prometheus.MustNewConstMetric(desc, prometheus.GaugeValue, value, []string{bootedVersion, stagedVersion, packages}...)
 
 	return 1
 }
@@ -119,7 +119,7 @@ func newCmd(clientid string, args ...string) *exec.Cmd {
 	return r
 }
 
-func fetchUpdates(client client.Client, packages, booted_version, staged_version *string) error {
+func fetchUpdates(client client.Client, packages, bootedVersion, stagedVersion *string) error {
 	status, err := client.QueryStatus()
 	if err != nil {
 		return err
@@ -127,9 +127,9 @@ func fetchUpdates(client client.Client, packages, booted_version, staged_version
 
 	booted, _ := status.GetBootedDeployment()
 	staged := status.GetStagedDeployment()
-	*booted_version = booted.Version
+	*bootedVersion = booted.Version
 	if staged != nil {
-		*staged_version = staged.Version
+		*stagedVersion = staged.Version
 		c := newCmd(clientID, "db", "diff", "--format=json", booted.GetBaseChecksum(), staged.GetBaseChecksum())
 		buf, err := c.Output()
 		if err != nil {
