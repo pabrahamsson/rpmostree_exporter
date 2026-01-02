@@ -89,7 +89,7 @@ spec:
     - name: source
   steps:
     - name: create-release-pr
-      image: quay.io/pabrahamsson/release-please:17.0.0-4@sha256:1e5b1b7b624ca733f1d3f1c8c754fc7e636337ffbc89bdca640eae7857d3fa33
+      image: quay.io/pabrahamsson/release-please:17.1-1767328320
       env:
         - name: GH_TOKEN
           valueFrom:
@@ -155,7 +155,7 @@ spec:
     - name: source
   steps:
     - name: check-release
-      image: quay.io/pabrahamsson/git:2.47.3-1@sha256:0ede8290f398031a7ecc0c4b6d6ad19b13d411caf2dafbe01f1bc5d94d81df62
+      image: quay.io/pabrahamsson/git:2.47-1767328490
       env:
         - name: GITHUB_TOKEN
           valueFrom:
@@ -243,7 +243,7 @@ spec:
         echo "New release detected with tag $(params.release-tag). Proceeding with artifact upload."
 
     - name: upload-artifacts
-      image: quay.io/pabrahamsson/gh-cli:2.78.0-2@sha256:fa4fbba9970eb9217d8d17ff564acfe6f9d54d1e6113b7404f2165133f2acfa9
+      image: quay.io/pabrahamsson/gh-cli:2.83-1767328637
       workingDir: $(workspaces.source.path)
       env:
         - name: GITHUB_TOKEN
