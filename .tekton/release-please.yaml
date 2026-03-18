@@ -220,7 +220,7 @@ spec:
     - name: source
   steps:
     - name: build-artifacts
-      image: registry.access.redhat.com/ubi10/go-toolset:10.1-1773232111@sha256:b7f71131f21be923baaaf952309b7940ae7c6a55ca44a7a91460adc6c8afd4de
+      image: registry.access.redhat.com/ubi10/go-toolset:10.1-1773851728@sha256:5f169bc52d42dfbc07c9e09aafeda9cddb9aed6d6277e5bdb7d7fbbaf3f32663
       workingDir: $(workspaces.source.path)
       script: |
         $!/usr/bin/env bash
