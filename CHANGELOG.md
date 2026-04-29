@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.5](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.8.4...v0.8.5) (2026-04-29)
+
+
+### Bug Fixes
+
+* **gosec:** Add recommended lint/gosec fixes ([#198](https://github.com/pabrahamsson/rpmostree_exporter/issues/198)) ([2fbafa0](https://github.com/pabrahamsson/rpmostree_exporter/commit/2fbafa0876a2c764bac4a1c16da64de0d08009bc))
+
 ## [0.8.4](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.8.3...v0.8.4) (2026-04-05)
 
 
