@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/alecthomas/kingpin/v2"
 	"github.com/coreos/rpmostree-client-go/pkg/client"
@@ -114,6 +115,7 @@ type Package struct {
 }
 
 func newCmd(clientid string, args ...string) *exec.Cmd {
+	// #nosec G204
 	r := exec.Command("rpm-ostree", args...)
 	r.Env = append(r.Env, "RPMOSTREE_CLIENT_ID", clientid)
 	return r
@@ -174,15 +176,20 @@ func main() {
 
 	http.Handle("/metrics", promhttp.Handler())
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(`<html>
+		_, err := w.Write([]byte(`<html>
     <head><title>RPM OStree Exporter</title></head>
     <body>
     <h1>RPM OStree Exporter</h1>
     <p><a href='/metrics'>Metrics</a></p>
     </body>
     </html>`))
+		if err != nil {
+			logger.Warn("Failed to write http redirect", slog.Any("warning", err))
+		}
 	})
-	srv := &http.Server{}
+	srv := &http.Server{
+		ReadHeaderTimeout: 3 * time.Second,
+	}
 	if err := web.ListenAndServe(srv, webConfig, logger); err != nil {
 		logger.Error("Error starting HTTP server", slog.Any("err", err))
 		os.Exit(1)

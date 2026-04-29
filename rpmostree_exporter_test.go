@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
@@ -25,17 +26,15 @@ func newRpmostree(response []byte) *rpmostree {
 
 func handler(r *rpmostree) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		w.Write(r.response)
-	}
-}
-
-func handlerStale(exit chan bool) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		<-exit
+		_, err := w.Write(r.response)
+		if err != nil {
+			slog.Log(context.Background(), slog.LevelError, "Error writing http response")
+		}
 	}
 }
 
 func expectMetrics(t *testing.T, c prometheus.Collector, fixture string) {
+	// #nosec G304
 	exp, err := os.Open(path.Join("test", fixture))
 	if err != nil {
 		t.Fatalf("Error opening fixture file %q: %v", fixture, err)
