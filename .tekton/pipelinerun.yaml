@@ -30,6 +30,47 @@ spec:
             value: $(params.repo_url)
           - name: revision
             value: $(params.revision)
+      - name: go-lint
+        runAfter:
+          - fetch-repository
+        taskRef:
+          params:
+            - name: kind
+              value: task
+            - name: name
+              value: go-lint
+            - name: namespace
+              value: openshift-pipelines
+          resolver: cluster
+        workspaces:
+          - name: source
+            workspace: source
+      - name: github-sarif
+        params:
+          - name: commit-sha
+            value: $(params.revision)
+          - name: github-token-secret-name
+            value: "{{ git_auth_secret }}"
+          - name: pull-request-number
+            value: "{{ pull_request_number }}"
+          - name: repo
+            value: "{{ repo_owner }}/{{ repo_name }}"
+          - name: sarif-file
+            value: $(tasks.go-lint.results.sarif-file-name)
+        runAfter:
+          - go-lint
+        taskRef:
+          params:
+            - name: kind
+              value: task
+            - name: name
+              value: upload-github-sarif
+            - name: namespace
+              value: openshift-pipelines
+          resolver: cluster
+        workspaces:
+          - name: source
+            workspace: source
       - name: build
         runAfter:
           - fetch-repository
