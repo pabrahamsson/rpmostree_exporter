@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.6](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.8.5...v0.8.6) (2026-04-30)
+
+
+### Bug Fixes
+
+* **ci:** Use quay.io/hummingbird/go:1.26 containers ([#201](https://github.com/pabrahamsson/rpmostree_exporter/issues/201)) ([b80384c](https://github.com/pabrahamsson/rpmostree_exporter/commit/b80384c43a0fd827e3e030e110e67453389123ff))
+
 ## [0.8.5](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.8.4...v0.8.5) (2026-04-29)
 
 
