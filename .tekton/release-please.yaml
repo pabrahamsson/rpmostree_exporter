@@ -220,7 +220,7 @@ spec:
     - name: source
   steps:
     - name: build-artifacts
-      image: quay.io/hummingbird/go:1.26@sha256:f5c583651b68cd42f1779795f6f32ad10ec1fff001b6e2274b44e886be1d2d50
+      image: quay.io/hummingbird/go:1.26@sha256:b1a840ec0cae81496b22542f82b3132dcdd375b19890ca04be782bc6579e5626
       workingDir: $(workspaces.source.path)
       script: |
         $!/usr/bin/env bash
