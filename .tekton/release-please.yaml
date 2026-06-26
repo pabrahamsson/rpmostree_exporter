@@ -89,7 +89,7 @@ spec:
     - name: source
   steps:
     - name: create-release-pr
-      image: quay.io/pabrahamsson/release-please:17.10@sha256:e5a4f7bc1cb50ed2d914834f410f24cdac91d8d2fe7de26ba52ea7cc6173422a
+      image: quay.io/pabrahamsson/release-please:17.10@sha256:39205d79dd60d228da833e44298a0bcc01f10aadb51a1d9d77e5656a07551a68
       env:
         - name: GH_TOKEN
           valueFrom:
