@@ -9,7 +9,7 @@ require (
 	github.com/coreos/rpmostree-client-go v0.0.0-20240514234259-72a33e8554b6
 	github.com/prometheus/client_golang v1.23.2
 	github.com/prometheus/common v0.69.0
-	github.com/prometheus/exporter-toolkit v0.16.0
+	github.com/prometheus/exporter-toolkit v0.17.0
 )
 
 require (
@@ -23,8 +23,8 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect
-	github.com/mdlayher/socket v0.5.1 // indirect
-	github.com/mdlayher/vsock v1.2.1 // indirect
+	github.com/mdlayher/socket v0.6.0 // indirect
+	github.com/mdlayher/vsock v1.3.0 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/mwitkow/go-conntrack v0.0.0-20190716064945-2f068394615f // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
@@ -32,7 +32,7 @@ require (
 	github.com/prometheus/procfs v0.18.0 // indirect
 	github.com/xhit/go-str2duration/v2 v2.1.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
-	golang.org/x/crypto v0.51.0 // indirect
+	golang.org/x/crypto v0.52.0 // indirect
 	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/oauth2 v0.36.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
