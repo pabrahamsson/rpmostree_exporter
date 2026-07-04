@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.10](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.8.9...v0.8.10) (2026-07-04)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/prometheus/exporter-toolkit to v0.17.0 ([#264](https://github.com/pabrahamsson/rpmostree_exporter/issues/264)) ([96ac3fe](https://github.com/pabrahamsson/rpmostree_exporter/commit/96ac3fe88d93a27524d7382a9a20fda4944a3868))
+* **deps:** update module github.com/prometheus/exporter-toolkit to v0.17.1 ([#267](https://github.com/pabrahamsson/rpmostree_exporter/issues/267)) ([dc4574e](https://github.com/pabrahamsson/rpmostree_exporter/commit/dc4574edb53b3383cef28ea86d2ebb87ead85edc))
+
 ## [0.8.9](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.8.8...v0.8.9) (2026-06-18)
 
 
