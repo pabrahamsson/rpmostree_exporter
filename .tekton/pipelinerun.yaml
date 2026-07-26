@@ -82,7 +82,7 @@ spec:
             - name: source
           steps:
             - name: build
-              image: quay.io/hummingbird/go:1.26@sha256:05c4d1d08d30fc6fd18049c1c74d71751f68abd6b4e536b4647126eac792c811
+              image: quay.io/hummingbird/go:1.26@sha256:3b181dd5a0e596a908c7379ab3ccbc1f5e57d4a160c46ac95541333fa705ff62
               workingDir: $(workspaces.source.path)
               script: |
                 git config --global --add safe.directory $(pwd) 
