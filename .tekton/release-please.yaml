@@ -243,7 +243,7 @@ spec:
         echo "New release detected with tag $(params.release-tag). Proceeding with artifact upload."
 
     - name: upload-artifacts
-      image: quay.io/pabrahamsson/gh-cli:2.97@sha256:951fcf38c5656e59626e17824367d33a2904adcc2ba934db6d2fd8d26bd3588d
+      image: quay.io/pabrahamsson/gh-cli:2.98@sha256:aa005d03eceaec1914269e2e93ea80ab666f6246e8fc9ffd385999cf7d1b6f2c
       workingDir: $(workspaces.source.path)
       env:
         - name: GITHUB_TOKEN
