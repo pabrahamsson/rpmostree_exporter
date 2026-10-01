@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.15](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.8.14...v0.8.15) (2026-09-30)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/prometheus/common to v0.72.0 ([#323](https://github.com/pabrahamsson/rpmostree_exporter/issues/323)) ([b075063](https://github.com/pabrahamsson/rpmostree_exporter/commit/b075063d8d4a7b2c32c6e53c517335a249465c1e))
+
 ## [0.8.14](https://github.com/pabrahamsson/rpmostree_exporter/compare/v0.8.13...v0.8.14) (2026-09-25)
 
 
